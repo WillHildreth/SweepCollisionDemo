@@ -40,18 +40,26 @@ namespace SweepCollisionDemo
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture2D annoyedSakuraTexture = Content.Load<Texture2D>("annoyed_sakura");
             Texture2D happySakuraTexture = Content.Load<Texture2D>("happy_sakura");
-            for (int i = 1; i <= 5; i++)
-                _physics.addObject(_random.Next(0, _screenWidth - 100), _random.Next(0, _screenHeight - 100), _random.Next(100, 300), _random.Next(100, 300), (float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1, annoyedSakuraTexture, happySakuraTexture);
+            //_physics.addObject(100, 100, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
+            _physics.addObject(120, 120, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
+            _physics.addObject(100, 100, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
+            _physics.addObject(100, 80, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
+            _physics.addObject(220, 120, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
+            _physics.addObject(200, 100, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
+            _physics.addObject(200, 80, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
         }
-
+        bool _start = false;
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                _start = true;
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            _physics.update(deltaTime);
+            if (_start)
+                _physics.update(deltaTime);
 
             base.Update(gameTime);
         }
