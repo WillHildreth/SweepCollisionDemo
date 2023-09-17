@@ -8,14 +8,30 @@ namespace WH_Physics
     internal class WH_Physics
     {
         private List<AABB> _objects;
+        private int _screenWidth, _screenHeight;
 
-        public WH_Physics()
+        public WH_Physics(int screenWidth, int screenHeight)
         {
+            _screenWidth = screenWidth;
+            _screenHeight = screenHeight;
             _objects = new List<AABB>();
         }
 
         public void update()
         {
+            foreach (AABB obj in _objects)
+            {
+                // Process Movement
+                obj.updatePosition();
+
+                // Process Screen Edge Collisions
+                if (obj._rightEndPoint > _screenWidth)
+                {
+                    obj.
+                }
+
+                // Process Inter-AABB Collisions
+            }
         }
 
         public void addObject(int x, int y, int width, int height, float initialXVelocity, float initialYVelocity, Texture2D texture)
@@ -36,18 +52,24 @@ namespace WH_Physics
 
     internal class AABB
     {
-        public float _x, _y, _width, _height, _xVelocity, _yVelocity;
+        public float _x, _y, _width, _height, _xVelocity, _yVelocity, _leftEndPoint, _rightEndPoint, _topEndPoint, _bottomEndPoint;
         public Texture2D _texture;
+        
         public AABB(float x, float y, float width, float height, float initialXVelocity, float initialYVelocity, Texture2D texture) 
         {
-            _x = x;
-            _y = y;
+            _x = x = _leftEndPoint;
+            _y = y = _topEndPoint;
+            _bottomEndPoint = texture.Height + y;
+            _rightEndPoint = texture.Width + x;
             _width = width;
             _height = height;
             _xVelocity = initialXVelocity;
             _yVelocity = initialYVelocity;
             _texture = texture;
         }
+
+
+
     }
 
     internal class DrawableObject
