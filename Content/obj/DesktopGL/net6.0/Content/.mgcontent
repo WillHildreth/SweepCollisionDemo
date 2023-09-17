@@ -4,9 +4,21 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/willf/WH/Repos/SweepCollisionDemo/SweepCollisionDemo/Content/1.png</File>
+    <File>C:/Users/willf/WH/Repos/SweepCollisionDemo/SweepCollisionDemo/Content/2.png</File>
+    <File>C:/Users/willf/WH/Repos/SweepCollisionDemo/SweepCollisionDemo/Content/3.png</File>
+    <File>C:/Users/willf/WH/Repos/SweepCollisionDemo/SweepCollisionDemo/Content/4.png</File>
+    <File>C:/Users/willf/WH/Repos/SweepCollisionDemo/SweepCollisionDemo/Content/5.png</File>
     <File>C:/Users/willf/WH/Repos/SweepCollisionDemo/SweepCollisionDemo/Content/annoyed_sakura.png</File>
+    <File>C:/Users/willf/WH/Repos/SweepCollisionDemo/SweepCollisionDemo/Content/happy_sakura.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>
