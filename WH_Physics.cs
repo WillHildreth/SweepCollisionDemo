@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using static WH_Physics.WH_Physics;
 
 namespace WH_Physics
 {
@@ -13,6 +14,7 @@ namespace WH_Physics
         private List<AABB> _objects;
         internal int _screenWidth, _screenHeight;
         internal int _lastAssignedID;
+        public Texture2D _texture1, _texture2;
 
         public WH_Physics(int screenWidth, int screenHeight)
         {
@@ -55,8 +57,12 @@ namespace WH_Physics
             }
         }
 
-        public void update(float deltaTime)
+        public void update(float deltaTime, Point mousePosition)
         {
+            removeObject(-1);
+            addObject(MathHelper.Clamp(mousePosition.X - 50, 0, _screenWidth - 100), MathHelper.Clamp(mousePosition.Y - 50, 0, _screenHeight - 100), 100, 100, Vector2.Zero, -1);
+            Debug.WriteLine(mousePosition);
+
             foreach (AABB obj in _objects)
             {
                 // Process Movement
@@ -233,17 +239,25 @@ namespace WH_Physics
                 // object1 moving down
                 if (object1._lastBottomEndPoint > object2._lastTopEndPoint || object1._lastTopEndPoint < object2._lastBottomEndPoint || object1._lastRightEndPoint > object2._lastLeftEndPoint || object1._lastLeftEndPoint < object2._lastRightEndPoint)
                 {
-                    //object1._velocity = -1 * centerToCenterVector * 400;
-                    //object2._velocity = 1 * centerToCenterVector * 400;
+                    object1._velocity = -1 * centerToCenterVector * 400;
+                    object2._velocity = 1 * centerToCenterVector * 400;
                     object1._intersectingWith.Add(intersection._intervalID_2);
                     object2._intersectingWith.Add(intersection._intervalID_1);
                 }
             }
         }
 
-        public void addObject(int x, int y, int width, int height, Vector2 initialVelocity, Texture2D texture1, Texture2D texture2)
+        public void addObject(int x, int y, int width, int height, Vector2 initialVelocity, int customID = 0)
         {
-            _objects.Add(new AABB(x, y, width, height, initialVelocity, texture1, texture2, ++_lastAssignedID));
+            _objects.Add(new AABB(x, y, width, height, initialVelocity, _texture1, _texture2, customID == 0 ? ++_lastAssignedID : customID));
+        }
+
+        public void removeObject(int ID)
+        {
+            Predicate<AABB> objFinder = (AABB aabb) => { return aabb._ID == ID; };
+            AABB object1 = _objects.Find(objFinder);
+            if (object1 != null)
+                _objects.Remove(object1);
         }
 
         public DrawableObject[] getDrawableObjectArray()
@@ -251,7 +265,8 @@ namespace WH_Physics
             DrawableObject[] returnArray = new DrawableObject[_objects.Count];
             for (int i = 0; i < _objects.Count; i++)
             {
-                returnArray[i] = new DrawableObject(new Rectangle((int)_objects[i]._x, (int)_objects[i]._y, (int)_objects[i]._width, (int)_objects[i]._height), _objects[i]._intersectingWith.Count == 0 ? _objects[i]._texture2 : _objects[i]._texture1, Color.White);
+                //returnArray[i] = new DrawableObject(new Rectangle((int)_objects[i]._x, (int)_objects[i]._y, (int)_objects[i]._width, (int)_objects[i]._height), _objects[i]._intersectingWith.Count == 0 ? _objects[i]._texture2 : _objects[i]._texture1, Color.White);
+                returnArray[i] = new DrawableObject(new Rectangle((int)_objects[i]._x, (int)_objects[i]._y, (int)_objects[i]._width, (int)_objects[i]._height), _objects[i]._texture2, Color.White);
             }
             return returnArray;
         }

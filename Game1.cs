@@ -40,15 +40,17 @@ namespace SweepCollisionDemo
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture2D annoyedSakuraTexture = Content.Load<Texture2D>("annoyed_sakura");
             Texture2D happySakuraTexture = Content.Load<Texture2D>("happy_sakura");
-            //_physics.addObject(100, 100, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
-            _physics.addObject(120, 120, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
-            _physics.addObject(100, 100, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
-            _physics.addObject(100, 80, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
-            _physics.addObject(220, 120, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
-            _physics.addObject(200, 100, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
-            _physics.addObject(200, 80, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1), annoyedSakuraTexture, happySakuraTexture);
+            _physics._texture1 = annoyedSakuraTexture;
+            _physics._texture2 = happySakuraTexture;
+            _physics.addObject(120, 120, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1));
+            _physics.addObject(100, 100, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1));
+            _physics.addObject(100, 100, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1));
+            _physics.addObject(220, 120, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1));
+            _physics.addObject(200, 200, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1));
+            _physics.addObject(200, 200, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1));
         }
         bool _start = false;
+        bool _pressed = false;
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -57,9 +59,18 @@ namespace SweepCollisionDemo
                 _start = true;
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            MouseState mouseState = Mouse.GetState();
+
+            if (mouseState.LeftButton == ButtonState.Pressed && !_pressed)
+            {
+                _physics.addObject(mouseState.X, mouseState.Y, 150, 150, new Vector2((float)_random.NextDouble() * 2 - 1, (float)_random.NextDouble() * 2 - 1));
+                _pressed = true;
+            }
+            else
+                _pressed = false;
 
             if (_start)
-                _physics.update(deltaTime);
+                _physics.update(deltaTime, new Point(mouseState.X, mouseState.Y));
 
             base.Update(gameTime);
         }
